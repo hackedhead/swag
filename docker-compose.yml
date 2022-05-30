@@ -1,0 +1,30 @@
+version: "3.1"
+services:
+    swag:
+        image: lscr.io/linuxserver/swag
+        cap_add:
+            - NET_ADMIN
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=America/New York
+            - URL=hackedhead.net
+            - SUBDOMAINS=airsonic
+            - VALIDATION=http
+            - CERTPROVIDER=letsencrypt #optional
+            - ONLY_SUBDOMAINS=true
+        volumes:
+            - ./swag-config:/config
+        ports:
+            - 443:443
+            - 80:80 #optional
+        restart: unless-stopped
+    ddclient:
+        image: lscr.io/linuxserver/ddclient:latest
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=America/New York
+        volumes:
+            - ./ddclient-config:/config
+        restart: unless-stopped
